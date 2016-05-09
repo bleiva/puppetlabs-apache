@@ -6,6 +6,11 @@ class apache::version {
   # This will be 5 or 6 on RedHat, 6 or wheezy on Debian, 12 or quantal on Ubuntu, etc.
   $osr_array = split($::operatingsystemrelease,'[\/\.]')
   $distrelease = $osr_array[0]
+
+  if ($::operatingsystem =~ /^[Aa]mazon$/ and $apache::apache_version == '2.4') or ($distrelease == 7) {
+    $mod_dir_latest = true
+  }
+
   if ! $distrelease {
     fail("Class['apache::version']: Unparsable \$::operatingsystemrelease: ${::operatingsystemrelease}")
   }
